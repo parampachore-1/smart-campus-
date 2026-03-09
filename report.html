@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Report Issue — SmartCampus{% endblock %}
+{% block page_title %}Report an Issue{% endblock %}
+{% block content %}
+<div style="max-width:680px;">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>New Issue Report</h3>
+        <p style="font-size:12.5px;color:var(--text-sub);margin-top:4px;">Fill in the details to submit a campus issue</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label class="form-label">Issue Title *</label>
+          <input type="text" name="title" class="form-control" placeholder="Brief, descriptive title for the issue" required>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Category *</label>
+            <select name="category" class="form-control" required>
+              <option value="">Select Category</option>
+              <option value="Infrastructure">Infrastructure</option>
+              <option value="IT">IT &amp; Technology</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Cleanliness">Cleanliness &amp; Hygiene</option>
+              <option value="Safety">Safety &amp; Security</option>
+              <option value="Facilities">Facilities</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Priority *</label>
+            <select name="priority" class="form-control" required>
+              <option value="Low">Low</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="High">High</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Location *</label>
+          <input type="text" name="location" class="form-control" placeholder="e.g. Lab 3, Block A — 2nd Floor" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description *</label>
+          <textarea name="description" class="form-control" rows="5" placeholder="Describe the issue in detail — what's wrong, how long it has been going on, any impact..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Attach Image (optional)</label>
+          <div style="border:2px dashed var(--blue-200);border-radius:9px;padding:22px;text-align:center;cursor:pointer;background:var(--blue-50);transition:all 0.18s;" onclick="document.getElementById('imgInput').click()" onmouseover="this.style.borderColor='#1A56C4'" onmouseout="this.style.borderColor='#BFDBFE'">
+            <i class="fas fa-cloud-upload-alt" style="font-size:26px;color:var(--blue-400);margin-bottom:8px;display:block;"></i>
+            <p style="font-size:13.5px;color:var(--text-sub);">Click to upload or drag &amp; drop</p>
+            <p style="font-size:12px;color:var(--gray-500);margin-top:4px;">PNG, JPG, GIF up to 10MB</p>
+            <p id="fileName" style="font-size:13px;color:var(--blue-700);margin-top:8px;font-weight:600;"></p>
+          </div>
+          <input type="file" id="imgInput" name="image" accept="image/*" style="display:none;" onchange="document.getElementById('fileName').textContent = this.files[0]?.name || ''">
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px;">
+          <a href="{{ url_for('dashboard') }}" class="btn btn-outline">Cancel</a>
+          <button type="submit" class="btn btn-blue"><i class="fas fa-paper-plane"></i> Submit Issue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

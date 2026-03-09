@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}Issue #{{ issue.id }} — SmartCampus{% endblock %}
+{% block page_title %}Issue #{{ issue.id }}{% endblock %}
+{% block content %}
+<div style="max-width:920px;">
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:22px;flex-wrap:wrap;">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
+    <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;">
+      {% if issue.status == 'Open' %}<span class="badge badge-open" style="font-size:13px;padding:5px 13px;">● Open</span>
+      {% elif issue.status == 'In Progress' %}<span class="badge badge-progress" style="font-size:13px;padding:5px 13px;">● In Progress</span>
+      {% elif issue.status == 'Resolved' %}<span class="badge badge-resolved" style="font-size:13px;padding:5px 13px;"><i class="fas fa-check"></i> Resolved</span>
+      {% else %}<span class="badge badge-closed" style="font-size:13px;padding:5px 13px;">Closed</span>{% endif %}
+      {% if issue.priority == 'High' %}<span class="badge badge-high" style="font-size:13px;padding:5px 13px;">High Priority</span>
+      {% elif issue.priority == 'Medium' %}<span class="badge badge-medium" style="font-size:13px;padding:5px 13px;">Medium Priority</span>
+      {% else %}<span class="badge badge-low" style="font-size:13px;padding:5px 13px;">Low Priority</span>{% endif %}
+    </div>
+  </div>
+
+  <div class="grid-2" style="align-items:start;">
+    <div style="display:flex;flex-direction:column;gap:18px;">
+      <!-- Issue Info -->
+      <div class="card">
+        <div class="card-header"><h3>{{ issue.title }}</h3></div>
+        <div class="card-body">
+          <div class="detail-meta">
+            <div class="meta-item">
+              <span class="meta-label">Category</span>
+              <span class="meta-value"><span class="badge badge-cat">{{ issue.category }}</span></span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Location</span>
+              <span class="meta-value"><i class="fas fa-map-marker-alt" style="color:var(--blue-500);margin-right:5px;font-size:12px;"></i>{{ issue.location }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Reporter</span>
+              <span class="meta-value">{{ issue.reporter or 'Unknown' }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Reported On</span>
+              <span class="meta-value">{{ issue.created_at[:10] }}</span>
+            </div>
+            {% if issue.assigned_to %}
+            <div class="meta-item">
+              <span class="meta-label">Assigned To</span>
+              <span class="meta-value">{{ issue.assigned_to }}</span>
+            </div>
+            {% endif %}
+            {% if issue.resolved_at %}
+            <div class="meta-item">
+              <span class="meta-label">Resolved On</span>
+              <span class="meta-value">{{ issue.resolved_at[:10] }}</span>
+            </div>
+            {% endif %}
+          </div>
+          <hr>
+          <p style="font-size:13.5px;font-weight:600;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px;">Description</p>
+          <p style="line-height:1.75;font-size:14px;color:var(--text);">{{ issue.description }}</p>
+
+          {% if issue.image_path %}
+          <hr>
+          <p style="font-size:13.5px;font-weight:600;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px;">Attached Image</p>
+          <img src="/static/uploads/{{ issue.image_path }}" alt="Issue image" style="max-width:100%;border-radius:9px;border:1.5px solid var(--blue-100);">
+          {% endif %}
+
+          {% if issue.resolution_note %}
+          <div style="background:#F0FDF4;border:1.5px solid #A7F3D0;border-radius:9px;padding:15px;margin-top:18px;">
+            <p style="font-size:12.5px;font-weight:700;color:#065F46;margin-bottom:7px;"><i class="fas fa-check-circle"></i> Resolution Note</p>
+            <p style="font-size:13.5px;line-height:1.7;color:#065F46;">{{ issue.resolution_note }}</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Comments -->
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-comments" style="color:var(--blue-500);margin-right:8px;"></i>Comments ({{ comments|length }})</h3>
+        </div>
+        <div class="card-body">
+          {% if comments %}
+          <div class="comment-list" style="margin-bottom:20px;">
+            {% for c in comments %}
+            <div class="comment-item">
+              <div class="comment-avatar" style="background:{% if c.role == 'admin' %}var(--blue-700){% else %}var(--blue-400){% endif %};color:#fff;">
+                {{ c.commenter[0].upper() }}
+              </div>
+              <div class="comment-bubble">
+                <div class="comment-meta">
+                  <strong>{{ c.commenter }}</strong>
+                  {% if c.role == 'admin' %}<span style="background:var(--blue-100);color:var(--blue-700);padding:1px 8px;border-radius:10px;font-size:10.5px;margin-left:6px;font-weight:600;">Admin</span>{% endif %}
+                  <span style="margin-left:8px;">{{ c.created_at[:16] }}</span>
+                </div>
+                <p style="font-size:13.5px;line-height:1.6;color:var(--text);">{{ c.comment }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <form method="POST" action="{{ url_for('add_comment', issue_id=issue.id) }}">
+            <div class="form-group" style="margin-bottom:10px;">
+              <textarea name="comment" class="form-control" rows="3" placeholder="Add a comment..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-blue btn-sm"><i class="fas fa-paper-plane"></i> Post Comment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Panel -->
+    {% if session.user_role == 'admin' %}
+    <div class="card" style="position:sticky;top:80px;">
+      <div class="card-header">
+        <h3><i class="fas fa-cog" style="color:var(--blue-600);margin-right:8px;"></i>Admin Controls</h3>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('update_issue', issue_id=issue.id) }}">
+          <div class="form-group">
+            <label class="form-label">Update Status</label>
+            <select name="status" class="form-control">
+              {% for s in ['Open','In Progress','Resolved','Closed'] %}
+              <option value="{{ s }}" {% if issue.status == s %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Assign To</label>
+            <input type="text" name="assigned_to" class="form-control" value="{{ issue.assigned_to or '' }}" placeholder="Team or person name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Resolution Note</label>
+            <textarea name="resolution_note" class="form-control" rows="4" placeholder="Explain what was done to resolve this issue...">{{ issue.resolution_note or '' }}</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fas fa-save"></i> Update Issue</button>
+        </form>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

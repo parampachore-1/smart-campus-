@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SmartCampus — Issue Reporting Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:#FFFFFF;color:#0F1D3D;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:18px 64px;background:#fff;border-bottom:1.5px solid #DBEAFE;position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(13,43,94,0.06);}
+.nav-brand{display:flex;align-items:center;gap:10px;}
+.nav-brand .icon{width:38px;height:38px;background:#1A56C4;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;}
+.nav-brand span{font-weight:800;font-size:17px;color:#0D2B5E;}
+.nav-links{display:flex;gap:10px;}
+.btn-nav{padding:9px 20px;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.18s;border:none;}
+.btn-login{background:#EFF6FF;color:#1A56C4;border:1.5px solid #BFDBFE;}
+.btn-login:hover{background:#DBEAFE;}
+.btn-register{background:#1A56C4;color:#fff;}
+.btn-register:hover{background:#1040A0;box-shadow:0 4px 12px rgba(26,86,196,0.3);}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#EFF6FF 0%,#FFFFFF 60%);padding:80px 64px 60px;display:flex;align-items:center;gap:60px;}
+.hero-left{flex:1;max-width:560px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:#DBEAFE;color:#1A56C4;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:600;margin-bottom:22px;border:1px solid #BFDBFE;}
+.hero h1{font-size:clamp(32px,5vw,52px);font-weight:800;line-height:1.12;color:#0D2B5E;margin-bottom:18px;}
+.hero h1 span{color:#1A56C4;}
+.hero p{font-size:16px;line-height:1.75;color:#4A5F8A;margin-bottom:32px;}
+.hero-ctas{display:flex;gap:12px;}
+.btn-hero-primary{background:#1A56C4;color:#fff;padding:13px 28px;border-radius:9px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;transition:all 0.2s;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
+.btn-hero-primary:hover{background:#1040A0;box-shadow:0 6px 20px rgba(26,86,196,0.35);transform:translateY(-1px);}
+.btn-hero-secondary{background:#fff;color:#1A56C4;padding:13px 28px;border-radius:9px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;transition:all 0.2s;border:1.5px solid #BFDBFE;cursor:pointer;}
+.btn-hero-secondary:hover{background:#EFF6FF;}
+.hero-right{flex:1;display:flex;justify-content:center;}
+.hero-card{background:#fff;border-radius:16px;border:2px solid #DBEAFE;box-shadow:0 8px 40px rgba(13,43,94,0.12);padding:28px;width:360px;}
+.hero-card .hc-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:14px;border-bottom:1.5px solid #EFF6FF;}
+.hc-header .hc-icon{width:36px;height:36px;background:#1A56C4;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;}
+.hc-header span{font-weight:700;color:#0D2B5E;font-size:14px;}
+.hc-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F1F5FD;}
+.hc-row:last-child{border-bottom:none;}
+.hc-row .hc-title{font-size:13px;font-weight:500;color:#374B7A;}
+.hc-badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.b-open{background:#DBEAFE;color:#1A56C4;}
+.b-prog{background:#FEF9C3;color:#92400E;}
+.b-done{background:#D1FAE5;color:#065F46;}
+
+/* FEATURES */
+.features{padding:70px 64px;background:#fff;}
+.section-label{text-align:center;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:#1A56C4;font-weight:700;margin-bottom:10px;}
+.section-title{text-align:center;font-size:32px;font-weight:800;color:#0D2B5E;margin-bottom:10px;}
+.section-sub{text-align:center;font-size:15px;color:#4A5F8A;margin-bottom:48px;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:980px;margin:0 auto;}
+.feature-card{background:#FAFCFF;border:1.5px solid #DBEAFE;border-radius:13px;padding:26px;transition:all 0.2s;}
+.feature-card:hover{background:#EFF6FF;border-color:#93C5FD;transform:translateY(-3px);box-shadow:0 6px 24px rgba(13,43,94,0.1);}
+.f-icon{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;background:#DBEAFE;color:#1A56C4;}
+.feature-card h3{font-size:15px;font-weight:700;color:#0D2B5E;margin-bottom:8px;}
+.feature-card p{font-size:13px;line-height:1.7;color:#4A5F8A;}
+
+/* CREDENTIALS */
+.credentials{background:#EFF6FF;border-top:1.5px solid #DBEAFE;padding:48px 64px;text-align:center;}
+.cred-inner{display:inline-block;background:#fff;border:1.5px solid #BFDBFE;border-radius:13px;padding:28px 36px;}
+.cred-inner h3{font-size:15px;font-weight:700;color:#0D2B5E;margin-bottom:20px;}
+.cred-grid{display:flex;gap:40px;justify-content:center;}
+.cred-item .role{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#1A56C4;font-weight:700;margin-bottom:8px;}
+.cred-item code{display:block;background:#EFF6FF;color:#0D2B5E;padding:5px 12px;border-radius:6px;font-size:12.5px;margin-bottom:4px;border:1px solid #DBEAFE;text-align:left;}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-brand">
+    <div class="icon"><i class="fas fa-graduation-cap"></i></div>
+    <span>SmartCampus</span>
+  </div>
+  <div class="nav-links">
+    <a href="{{ url_for('login') }}" class="btn-nav btn-login">Login</a>
+    <a href="{{ url_for('register') }}" class="btn-nav btn-register">Register Free</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge"><i class="fas fa-bolt"></i> Smart Campus Management System</div>
+    <h1>Report Campus Issues. <span>Get Them Resolved.</span></h1>
+    <p>A centralized platform for students and staff to report, track, and resolve campus infrastructure, IT, and maintenance issues — with full transparency.</p>
+    <div class="hero-ctas">
+      <a href="{{ url_for('register') }}" class="btn-hero-primary"><i class="fas fa-user-plus"></i> Get Started</a>
+      <a href="{{ url_for('login') }}" class="btn-hero-secondary">Sign In</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="hc-header">
+        <div class="hc-icon"><i class="fas fa-clipboard-list"></i></div>
+        <span>Recent Issues</span>
+      </div>
+      <div class="hc-row">
+        <span class="hc-title">Broken AC — Lab 3</span>
+        <span class="hc-badge b-prog">In Progress</span>
+      </div>
+      <div class="hc-row">
+        <span class="hc-title">WiFi Issue — Library</span>
+        <span class="hc-badge b-open">Open</span>
+      </div>
+      <div class="hc-row">
+        <span class="hc-title">Projector — Seminar Hall</span>
+        <span class="hc-badge b-open">Open</span>
+      </div>
+      <div class="hc-row">
+        <span class="hc-title">Water Leakage — Block B</span>
+        <span class="hc-badge b-done">Resolved</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="section-label">Platform Features</div>
+  <div class="section-title">Everything You Need</div>
+  <div class="section-sub">Built for students, staff, and administrators to manage campus issues efficiently.</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="f-icon"><i class="fas fa-file-alt"></i></div>
+      <h3>Easy Issue Reporting</h3>
+      <p>Submit issues with category, location, priority, and image attachment in under a minute.</p>
+    </div>
+    <div class="feature-card">
+      <div class="f-icon"><i class="fas fa-clock"></i></div>
+      <h3>Real-Time Tracking</h3>
+      <p>Track every issue from Open to Resolved with live status updates and comments.</p>
+    </div>
+    <div class="feature-card">
+      <div class="f-icon"><i class="fas fa-users-cog"></i></div>
+      <h3>Admin Management</h3>
+      <p>Assign, prioritize, and resolve issues from a powerful admin dashboard.</p>
+    </div>
+    <div class="feature-card">
+      <div class="f-icon"><i class="fas fa-chart-bar"></i></div>
+      <h3>Analytics & Insights</h3>
+      <p>Data-driven charts showing trends, hotspots, and resolution metrics.</p>
+    </div>
+    <div class="feature-card">
+      <div class="f-icon"><i class="fas fa-comments"></i></div>
+      <h3>Comments & Notes</h3>
+      <p>Communicate directly on issues with threaded comments and resolution notes.</p>
+    </div>
+    <div class="feature-card">
+      <div class="f-icon"><i class="fas fa-shield-alt"></i></div>
+      <h3>Secure & Role-Based</h3>
+      <p>Secure login with role-based access — students report, admins manage.</p>
+    </div>
+  </div>
+</section>
+
+<section class="credentials">
+  <div class="cred-inner">
+    <h3>🔑 Demo Login Credentials</h3>
+    <div class="cred-grid">
+      <div class="cred-item">
+        <div class="role">Admin Account</div>
+        <code>admin@campus.edu</code>
+        <code>admin123</code>
+      </div>
+      <div class="cred-item">
+        <div class="role">Student Account</div>
+        <code>student@campus.edu</code>
+        <code>student123</code>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

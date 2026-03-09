@@ -10,8 +10,8 @@ pip install flask werkzeug
 
 # 2. Run the app
 cd SmartCampus
-
 python app.py
+
 # 3. Open in browser
 http://localhost:5000
 ```
